@@ -7,4 +7,5 @@ and it is difficult to get a precise value. The value which is used here is an
 estimated average.
 
 Average monitored frequency during the test:
-- i7-8565U : 4.2 GHz (official range in specs: 1.8 - 4.6 GHz)
+- i7-8565U : 4.2 GHz
+- i7-13700H : 5.0 GHz
