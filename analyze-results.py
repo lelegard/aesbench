@@ -142,7 +142,7 @@ def text_table(value_name):
 if opt_pprint:
     pprint.pprint(results, width=132)
 elif opt_text:
-    print('ENCRYPTION / DECRYPTION BITRATE')
+    print('ENCRYPTION / DECRYPTION BITRATE (Gb/s)')
     print('')
     text_table('bitrate')
     print('')

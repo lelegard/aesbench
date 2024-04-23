@@ -1,4 +1,4 @@
-ENCRYPTION / DECRYPTION BITRATE
+ENCRYPTION / DECRYPTION BITRATE (Gb/s)
 
 CPU core                i7-8565U     i7-13700H   Xeon G6348   Cortex A53   Cortex A72   Neoverse N1   Neoverse V1   Neoverse V2      Apple M1      Apple M3
 Frequency               4.20 GHz      5.00 GHz     2.60 GHz     1.20 GHz     1.80 GHz      3.00 GHz      2.60 GHz      3.30 GHz      3.20 GHz      4.00 GHz
