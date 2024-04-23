@@ -7,8 +7,8 @@ to better specialized assembly code in critical operations.
 
 The tested chaining modes are ECB, CBC, XTS, GCM.
 
-The results are summarized in the [RESULTS.md](RESULTS.md) file. Two tables are
-provided:
+The results are summarized in files [RESULTS.md](RESULTS.md) and [RESULTS.txt](RESULTS.txt).
+Two tables are provided:
 
 - Encryption and decryption bitrates (how many bits are encrypted or decrypted per
   second when the CPU core runs at full speed for that operation).
@@ -23,4 +23,4 @@ Remarks:
   with a portable C code which is much slower that specialized AES instructions.
   All other cores in these tests, Intel or Arm, have AES instructions.
 
-The RESULTS.md file is generated using the Python scripts `analyze-results.py`.
+The files RESULTS.md and RESULTS.txt are generated using the Python script `analyze-results.py`.
