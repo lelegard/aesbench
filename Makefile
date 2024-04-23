@@ -18,13 +18,11 @@ OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(BINDIR)/%.o,$(SOURCES))
 
 # Tools and general options.
 SHELL      = /usr/bin/env bash --noprofile
-CXXFLAGS  += -std=c++17 -Werror -Wall -Wextra -Wno-unused-parameter
+CXXFLAGS  += -Werror -Wall -Wextra -Wno-unused-parameter
 FULLSPEED  = -O3 -fno-strict-aliasing -funroll-loops -fomit-frame-pointer
-CPPFLAGS  += $(if $(findstring mac,$(SYSTEM)),$(addprefix -I,$(wildcard /opt/homebrew/include /usr/local/include)))
+CPPFLAGS  += -std=c++11 $(if $(findstring mac,$(SYSTEM)),$(addprefix -I,$(wildcard /opt/homebrew/include /usr/local/include)))
 LDFLAGS   += $(if $(findstring mac,$(SYSTEM)),$(addprefix -L,$(wildcard /opt/homebrew/lib /usr/local/lib)))
 LDLIBS    += -lcrypto -lm
-NM         = nm
-NMFLAGS    = $(if $(findstring linux,$(SYSTEM)),-D)
 
 # Define DEBUG to compile in debug mode.
 CXXFLAGS += $(if $(DEBUG),-g,-O2)

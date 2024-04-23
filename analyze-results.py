@@ -14,13 +14,14 @@ GIGA = 1000000000.0
 results = [
     {'cpu': 'i7-8565U',    'frequency': 4.20, 'file': 'intel-i7-8565U-linux-vm.txt'},
     {'cpu': 'i7-13700H',   'frequency': 5.00, 'file': 'intel-i7-13700H-linux-vm.txt'},
-    {'cpu': 'Cortex-A53',  'frequency': 1.20, 'file': 'arm-rpi3-cortex-a53-linux.txt'},
-    {'cpu': 'Cortex-A72',  'frequency': 1.80, 'file': 'arm-rpi4-cortex-a72-linux.txt'},
-    {'cpu': 'Neoverse-N1', 'frequency': 3.00, 'file': 'arm-ampere-neoverse-n1-linux.txt'},
-    {'cpu': 'Neoverse-V1', 'frequency': 2.60, 'file': 'arm-graviton3-neoverse-v1-linux-vm.txt'},
-    {'cpu': 'Neoverse-V2', 'frequency': 3.30, 'file': 'arm-grace-neoverse-v2-linux.txt'},
-    {'cpu': 'Apple-M1',    'frequency': 3.20, 'file': 'arm-apple-m1-macos.txt'},
-    {'cpu': 'Apple-M3',    'frequency': 4.00, 'file': 'arm-apple-m3-macos.txt'}
+    {'cpu': 'Xeon G6348',  'frequency': 2.60, 'file': 'intel-xeon-gold-6348-linux.txt'},
+    {'cpu': 'Cortex A53',  'frequency': 1.20, 'file': 'arm-rpi3-cortex-a53-linux.txt'},
+    {'cpu': 'Cortex A72',  'frequency': 1.80, 'file': 'arm-rpi4-cortex-a72-linux.txt'},
+    {'cpu': 'Neoverse N1', 'frequency': 3.00, 'file': 'arm-ampere-neoverse-n1-linux.txt'},
+    {'cpu': 'Neoverse V1', 'frequency': 2.60, 'file': 'arm-graviton3-neoverse-v1-linux-vm.txt'},
+    {'cpu': 'Neoverse V2', 'frequency': 3.30, 'file': 'arm-grace-neoverse-v2-linux.txt'},
+    {'cpu': 'Apple M1',    'frequency': 3.20, 'file': 'arm-apple-m1-macos.txt'},
+    {'cpu': 'Apple M3',    'frequency': 4.00, 'file': 'arm-apple-m3-macos.txt'}
 ]
 
 # Command line option

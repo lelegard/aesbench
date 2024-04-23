@@ -156,8 +156,10 @@ int main(int argc, char* argv[])
     std::cout << "openssl: "
 #if defined(OPENSSL_FULL_VERSION_STRING) // v3
               << OpenSSL_version(OPENSSL_FULL_VERSION_STRING) << ", " << OpenSSL_version(OPENSSL_CPU_INFO)
-#else
+#elif defined(OPENSSL_VERSION)
               << OpenSSL_version(OPENSSL_VERSION)
+#else
+              << OPENSSL_VERSION_TEXT
 #endif
               << std::endl;
 
