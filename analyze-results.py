@@ -12,12 +12,12 @@ GIGA = 1000000000.0
 results = [
     {'cpu': 'i7-8565U',    'frequency': 4.20, 'file': 'intel-i7-8565U-linux-vm.txt'},
     {'cpu': 'i7-13700H',   'frequency': 5.00, 'file': 'intel-i7-13700H-linux-vm.txt'},
-    {'cpu': 'Cortex A53',  'frequency': 1.20, 'file': 'arm-rpi3-cortex-a53-linux.txt'},
-    {'cpu': 'Cortex A72',  'frequency': 1.80, 'file': 'arm-rpi4-cortex-a72-linux.txt'},
-    {'cpu': 'Neoverse V1', 'frequency': 2.60, 'file': 'arm-graviton3-neoverse-v1-linux-vm.txt'},
-    {'cpu': 'Neoverse V2', 'frequency': 3.30, 'file': 'arm-grace-neoverse-v2-linux.txt'},
-    {'cpu': 'Apple M1',    'frequency': 3.20, 'file': 'arm-apple-m1-macos.txt'},
-    {'cpu': 'Apple M3',    'frequency': 4.00, 'file': 'arm-apple-m3-macos.txt'}
+    {'cpu': 'Cortex-A53',  'frequency': 1.20, 'file': 'arm-rpi3-cortex-a53-linux.txt'},
+    {'cpu': 'Cortex-A72',  'frequency': 1.80, 'file': 'arm-rpi4-cortex-a72-linux.txt'},
+    {'cpu': 'Neoverse-V1', 'frequency': 2.60, 'file': 'arm-graviton3-neoverse-v1-linux-vm.txt'},
+    {'cpu': 'Neoverse-V2', 'frequency': 3.30, 'file': 'arm-grace-neoverse-v2-linux.txt'},
+    {'cpu': 'Apple-M1',    'frequency': 3.20, 'file': 'arm-apple-m1-macos.txt'},
+    {'cpu': 'Apple-M3',    'frequency': 4.00, 'file': 'arm-apple-m3-macos.txt'}
 ]
 
 # Main code: load all result files.
@@ -52,7 +52,7 @@ def generate_table(gen_bitrate):
     width_0 += len(' encrypt')
     # Compute width of each processor column.
     for res in results:
-        res['header'] = '%s<br/>(%.2f GHz)' % (res['cpu'], res['frequency'])
+        res['header'] = '%s<br/>%.2f GHz' % (res['cpu'], res['frequency'])
         res['width'] = len(res['header'])
     # Output headers lines.
     print('| %*s |' % (-width_0, 'AES mode'), end='')
@@ -75,7 +75,7 @@ def generate_table(gen_bitrate):
                 if value <= 0 or (not gen_bitrate and res['frequency'] <= 0.0):
                     print(' %*s |' % (res['width'], ''), end='')
                 elif gen_bitrate:
-                    print(' %*.3f Gb/s |' % (res['width'] - 5, float(value) / GIGA), end='')
+                    print(' %*.3f |' % (res['width'], float(value) / GIGA), end='')
                 else:
                     rate = float(value) / (res['frequency'] * GIGA)
                     if rate >= 10.0:
@@ -84,16 +84,19 @@ def generate_table(gen_bitrate):
                         s = '%.2f' % rate
                     else:
                         s = '%.3f' % rate
-                    print(' %*s b/cy |' % (res['width'] - 5, s), end='')
+                    print(' %*s |' % (res['width'], s), end='')
             print('')
 
 # Generate the final markdown file.
 print('# Results comparison')
 print('')
 print('## Encryption / decryption bitrate')
+print('The encryption and decryption bitrates are in gigabits per second.')
 print('')
 generate_table(True)
 print('')
 print('## Encrypted / decrypted bits per processor cycle')
+print('The values are the numbers of processed bits per cycle.')
+print('These values give a relative value of each CPU core, independently of the frequency.')
 print('')
 generate_table(False)
