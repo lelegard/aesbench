@@ -17,10 +17,10 @@ provided:
   number of pipelines which are able to process AES instructions.
 
 Remarks:
-- All tested modes, except CBC encryption, can be potentially parallized.
+- All tested modes, except CBC encryption, can be potentially parallelized.
 - For export reasons, the Arm Cortex A53 and A72 in Raspberry Pi 3 and 4
   have no specialized AES instructions. The AES algorithm is implemented
   with a portable C code which is much slower that specialized AES instructions.
-  All other cores, Intel or Arm, have specialized AES instructions.
+  All other cores in these tests, Intel or Arm, have AES instructions.
 
 The RESULTS.md file is generated using the Python scripts `analyze-results.py`.
