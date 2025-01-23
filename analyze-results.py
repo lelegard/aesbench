@@ -6,7 +6,7 @@
 # With option --pprint, print the data structure instead of creating the file.
 #----------------------------------------------------------------------------
 
-import os, sys, pprint
+import re, os, sys, pprint
 GIGA = 1000000000.0
 
 # List of CPU cores and corresponding result files.
@@ -15,6 +15,7 @@ results = [
     {'cpu': 'i7-13700H',   'frequency': 5.00, 'file': 'intel-i7-13700H-linux-vm.txt'},
     {'cpu': 'Xeon G6348',  'frequency': 2.60, 'file': 'intel-xeon-gold-6348-linux.txt'},
     {'cpu': 'Xeon M9460',  'frequency': 3.50, 'file': 'intel-xeon-max-9460-linux.txt'},
+    {'cpu': 'Xeon M9460',  'frequency': 3.50, 'file': 'intel-xeon-max-9460-linux-openssl.3.2.2.txt'},
     {'cpu': 'EPYC 9534',   'frequency': 3.70, 'file': 'amd-epyc-9534-linux.txt'},
     {'cpu': 'Cortex A53',  'frequency': 1.20, 'file': 'arm-rpi3-cortex-a53-linux.txt'},
     {'cpu': 'Cortex A72',  'frequency': 1.80, 'file': 'arm-rpi4-cortex-a72-linux.txt'},
@@ -28,15 +29,18 @@ results = [
 # Main code: load all result files.
 rootdir = os.path.dirname(os.path.abspath(sys.argv[0]))
 algos = []
+count = 0
 for res in results:
     res['freq_header'] = '%.2f GHz' % (res['frequency'])
-    res['width'] = max(len(res['cpu']), len(res['freq_header']))
+    res['openssl'] = ''
     res['data'] = {}
+    res['index'] = count
+    count += 1
     with open(rootdir + '/results/' + res['file'], 'r') as input:
         algo = None
         for line in input:
             line = [field.strip() for field in line.split(':')]
-            if len(line) == 2:
+            if len(line) >= 2:
                 if line[0] == 'algo':
                     algo = line[1]
                     if algo.startswith('id-aes'):
@@ -49,6 +53,10 @@ for res in results:
                         'decrypt': {'bitrate':  {'value': 0,   'string': '', 'rank': 0},
                                     'bitcycle': {'value': 0.0, 'string': '', 'rank': 0}}
                     }
+                elif line[0] == 'openssl' and len(res['openssl']) == 0:
+                    match = re.search(r'([0-9\.]+[a-zA-Z]*)', line[1])
+                    if match is not None:
+                        res['openssl'] = match.group(1)
                 elif (line[0] == 'encrypt-bitrate' or line[0] == 'decrypt-bitrate') and algo is not None:
                     data = res['data'][algo][line[0].split('-')[0]]
                     bitcycle = float(line[1]) / (res['frequency'] * GIGA)
@@ -61,21 +69,36 @@ for res in results:
                         data['bitcycle']['string'] = '%.2f' % bitcycle
                     else:
                         data['bitcycle']['string'] = '%.3f' % bitcycle
+    res['width'] = max(len(res['cpu']), len(res['freq_header']), len(res['openssl']))
 
 # Width of algorithm column.
 width_0 = max([len(a) for a in algos]) + len(' encrypt')
 
-# Build CPU rankings for each operation.
+# Build rankings for each operation.
 for algo in algos:
     for op in ['encrypt', 'decrypt']:
         for value in ['bitrate', 'bitcycle']:
-            dlist = [(res['cpu'], res['data'][algo][op][value]['value']) for res in results]
+            dlist = [(res['index'], res['data'][algo][op][value]['value']) for res in results]
             dlist.sort(key=lambda x: x[1], reverse=True)
             for rank in range(len(dlist)):
-                res = next(r for r in results if r['cpu'] == dlist[rank][0])
+                res = next(r for r in results if r['index'] == dlist[rank][0])
+                res['data'][algo][op][value]['rank'] = rank + 1
+for res in results:
+    res['ranks'] = {'bitrate': {'min': 1000, 'max': 0}, 'bitcycle': {'min': 1000, 'max': 0}}
+    for algo in algos:
+        for op in ['encrypt', 'decrypt']:
+            for value in ['bitrate', 'bitcycle']:
                 data = res['data'][algo][op][value]
-                data['rank'] = rank + 1
-                data['string'] += ' (%d)' % data['rank']
+                res['ranks'][value]['min'] = min(res['ranks'][value]['min'], data['rank'])
+                res['ranks'][value]['max'] = max(res['ranks'][value]['max'], data['rank'])
+    for algo in algos:
+        for op in ['encrypt', 'decrypt']:
+            for value in ['bitrate', 'bitcycle']:
+                data = res['data'][algo][op][value]
+                space = ' '
+                if res['ranks'][value]['min'] < 10 and res['ranks'][value]['max'] >= 10 and data['rank'] < 10:
+                    space = '  '
+                data['string'] += '%s(%d)' % (space, data['rank'])
                 res['width'] = max(res['width'], len(data['string']))
 
 # Generate a text table.
@@ -85,17 +108,21 @@ def text_table(value_name, file):
     # Output headers lines.
     l1 = 'CPU core'
     l2 = 'Frequency'
-    w0 = max(width_0, len(l1), len(l2))
+    l3 = 'OpenSSL'
+    w0 = max(width_0, len(l1), len(l2), len(l3))
     l1 = l1.ljust(w0)
     l2 = l2.ljust(w0)
-    l3 = w0 * '-'
+    l3 = l3.ljust(w0)
+    l4 = w0 * '-'
     for res in results:
         l1 += SEP + res['cpu'].rjust(res['width'])
         l2 += SEP + res['freq_header'].rjust(res['width'])
-        l3 += SEP + (res['width'] * '-')
+        l3 += SEP + res['openssl'].rjust(res['width'])
+        l4 += SEP + (res['width'] * '-')
     print(l1.rstrip(), file=output)
     print(l2.rstrip(), file=output)
     print(l3.rstrip(), file=output)
+    print(l4.rstrip(), file=output)
     # Output one line per AES operation.
     for algo in algos:
         for op in ['encrypt', 'decrypt']:
@@ -107,7 +134,7 @@ def text_table(value_name, file):
                     l += SEP + res['width'] * ' '
             print(l.rstrip(), file=output)
 
-# Generate the final markdown or text file.
+# Generate the final text file.
 if len(sys.argv) > 1 and sys.argv[1] == "--pprint":
     pprint.pprint(results, width=132)
 else:
