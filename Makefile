@@ -28,6 +28,13 @@ LDLIBS    += -lcrypto -lm
 CXXFLAGS += $(if $(DEBUG),-g,-O2)
 LDFLAGS  += $(if $(DEBUG),-g)
 
+# To use a custom build of OpenSSL, clone https://github.com/openssl/openssl.git
+# Then: ./config; make; make install DESTDIR=/some/where
+# Build this project: make OSSLROOT=/some/where/usr/local
+# Run the test: LD_LIBRARY_PATH=/some/where/usr/local/lib build/aesbench
+CXXFLAGS += $(if $(OSSLROOT),-I$(OSSLROOT)/include)
+LDFLAGS  += $(if $(OSSLROOT),-L$(OSSLROOT)/lib)
+
 # Build operations.
 exec: $(EXEC)
 	@true
