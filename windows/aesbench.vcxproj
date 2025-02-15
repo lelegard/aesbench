@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{cfc399df-56af-4dce-ad31-80dfd1d09cf3}</ProjectGuid>
+    <RootNamespace>aesbench</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildProjectDirectory)\common.props" />
+
+  <ItemGroup>
+    <ClCompile Include="..\aesbench.cpp" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+
+  <Choose>
+    <When Condition="'$(Platform)' == 'x86' OR '$(Platform)' == 'Win32'">
+      <PropertyGroup Label="UserMacros">
+        <OpenSSL_Root>C:\Program Files (x86)\OpenSSL-Win32\</OpenSSL_Root>
+        <OpenSSL_LibRoot>$(OpenSSL_Root)lib\VC\x86\</OpenSSL_LibRoot>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(Platform)' == 'x64' OR '$(Platform)' == 'Win64'">
+      <PropertyGroup Label="UserMacros">
+        <OpenSSL_Root>C:\Program Files\OpenSSL-Win64\</OpenSSL_Root>
+        <OpenSSL_LibRoot>$(OpenSSL_Root)lib\VC\x64\</OpenSSL_LibRoot>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(Platform)' == 'ARM64' OR '$(Platform)' == 'Arm64'">
+      <PropertyGroup Label="UserMacros">
+        <OpenSSL_Root>C:\Program Files\OpenSSL-Win64-ARM\</OpenSSL_Root>
+        <OpenSSL_LibRoot>$(OpenSSL_Root)lib\VC\arm64\</OpenSSL_LibRoot>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(OpenSSL_Root)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libcrypto_static.lib;Crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <Link>
+      <AdditionalLibraryDirectories>$(OpenSSL_LibRoot)MD\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <Link>
+      <AdditionalLibraryDirectories>$(OpenSSL_LibRoot)MDd\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+
+</Project>

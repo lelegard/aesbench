@@ -7,10 +7,16 @@
 #include <vector>
 #include <cstdlib>
 #include <cinttypes>
-#include <sys/resource.h>
+
 #include <openssl/opensslv.h>
 #include <openssl/evp.h>
 #include <openssl/err.h>
+
+#if defined(WINDOWS)
+    #include <Windows.h>
+#else
+    #include <sys/resource.h>
+#endif
 
 constexpr int64_t USECPERSEC = 1000000;  // microseconds per second
 constexpr int64_t MIN_CPU_TIME = 2 * USECPERSEC;
@@ -25,6 +31,18 @@ constexpr size_t  INNER_LOOP_COUNT = 100000;
 
 int64_t cpu_time()
 {
+#if defined(WINDOWS)
+    ::FILETIME creation_time, exit_time, kernel_time, user_time;
+    if (::GetProcessTimes(::GetCurrentProcess(), &creation_time, &exit_time, &kernel_time, &user_time) == 0) {
+        std::cerr << "GetProcessTimes error 0x" << std::hex << ::GetLastError() << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+    // A FILETIME is a 64-bit value in 100-nanosecond units (10 microsecond).
+    const int64_t ktime = (int64_t(kernel_time.dwHighDateTime) << 32) | kernel_time.dwLowDateTime;
+    const int64_t utime = (int64_t(user_time.dwHighDateTime) << 32) | user_time.dwLowDateTime;
+    return (ktime + utime) / 10;
+
+#else
     rusage ru;
     if (getrusage(RUSAGE_SELF, &ru) < 0) {
         perror("getrusage");
@@ -32,6 +50,7 @@ int64_t cpu_time()
     }
     return ((int64_t)(ru.ru_utime.tv_sec) * USECPERSEC) + ru.ru_utime.tv_usec +
            ((int64_t)(ru.ru_stime.tv_sec) * USECPERSEC) + ru.ru_stime.tv_usec;
+#endif
 }
 
 
@@ -94,7 +113,7 @@ void one_test(const EVP_CIPHER* evp)
     start = cpu_time();
     do {
         for (size_t i = 0; i < INNER_LOOP_COUNT; i++) {
-            if (EVP_EncryptUpdate(ctx, output.data(), &output_len, input.data(), input.size()) <= 0) {
+            if (EVP_EncryptUpdate(ctx, output.data(), &output_len, input.data(), int(input.size())) <= 0) {
                 fatal("encrypt update error");
             }
             size += input.size();
@@ -118,7 +137,7 @@ void one_test(const EVP_CIPHER* evp)
     start = cpu_time();
     do {
         for (size_t i = 0; i < INNER_LOOP_COUNT; i++) {
-            if (EVP_DecryptUpdate(ctx, output.data(), &output_len, input.data(), input.size()) <= 0) {
+            if (EVP_DecryptUpdate(ctx, output.data(), &output_len, input.data(), int(input.size())) <= 0) {
                 fatal("decrypt update error");
             }
             size += input.size();

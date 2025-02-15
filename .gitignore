@@ -46,6 +46,7 @@ CMakeLists.txt.user*
 *.ilk
 *.pdb
 *.suo
+.vs
 *vcproj.*.*.user
 *.ncb
 *.sdf
