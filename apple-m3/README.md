@@ -3,6 +3,10 @@
 The directory contains results for `aesbench` on the Apple M3 chip with various
 operating systems and different versions of the cryptographic libraries.
 
+On Windows, a similar test is done using the BCrypt library instead of OpenSSL. BCrypt
+is the native Microsoft cryptographic library. It is available on all Windows platforms,
+for user mode or kernel mode.
+
 ## Test environment
 
 The test environment is one single iMac M3 with the following configurations:
@@ -28,9 +32,23 @@ named "CPU info". Here are the displayed values for this bitmask:
 With the same version of OpenSSL (3.4.1), on the same processor, we see that the
 macOS version recognizes a different set of capabilities, 0x987d vs. 0x8fd on Linux.
 
-The Windows version seems to recognize no CPU capability at all. If no hardware
+The Windows version of OpenSSL seems to recognize no CPU capability at all. If no hardware
 acceleration is used at all, this may explain the catastrophic results with OpenSSL
 on Windows.
+
+The BCrypt library, on the other hand, has comparable results as OpenSSL on Linux or macOS.
+It is therefore obvious that BCrypt uses the specialized accelerated instructions.
+
+## Comparison with Intel platforms
+
+The same type of comparison for Intel platforms is available in the directory [raptor-lake](../raptor-lake).
+
+On Intel, OpenSSL on Windows has similar performances as on Linux. It reports CPU capabilities.
+It seems that OpenSSL knows how to use specialized instructions on Intel, unlike on Arm.
+
+On Intel, BCrypt is significantly better than OpenSSL on XTS and GCM modes. On Arm, there
+is no such large advantage. On Arm, OpenSSL is 10% better with XTS, while BCrypt is
+5% better on GCM (using OpenSSL on Linux because OpenSSL on Windows is awful).
 
 ## Conclusions
 

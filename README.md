@@ -59,3 +59,15 @@ The results seem to indicate the following number of pipelines for AES instructi
 - 4 pipelines: Intel i7-8565U, Arm Neoverse V1, Neoverse V2
 - 6 pipelines: Intel i7-13700H, Xeon Gold 6348
 - 8 pipelines: Apple M1, M3
+
+## Windows
+
+All main results were measured on UNIX systems (Linux or macOS). OpenSSL is also available
+on Windows, with mixed results. Windows also embeds a native cryptographic library named
+BCrypt with a significantly different performance profile.
+
+The subdirectory `windows` contains the Visual Studio project files to build `aesbench`.
+It also contains an equivalent program which uses the BCrypt library.
+
+The subdirectories `raptor-lake` and `apple-m3` contain comparative results between
+Linux and Windows, OpenSSL and BCrypt, on Intel and Arm CPU's respectively.
