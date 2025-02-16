@@ -15,7 +15,8 @@ results = [
     {'os': 'macOS',   'cpu': 'Apple M3', 'frequency': 4.00, 'file': 'result-macos.txt'},
     {'os': 'Linux',   'cpu': 'Apple M3', 'frequency': 4.00, 'file': 'result-linux-1.txt'},
     {'os': 'Linux',   'cpu': 'Apple M3', 'frequency': 4.00, 'file': 'result-linux-2.txt'},
-    {'os': 'Windows', 'cpu': 'Apple M3', 'frequency': 4.00, 'file': 'result-windows.txt'}
+    {'os': 'Windows', 'cpu': 'Apple M3', 'frequency': 4.00, 'file': 'result-windows.txt'},
+    {'os': 'Windows', 'cpu': 'Apple M3', 'frequency': 4.00, 'file': 'result-windows-bcrypt.txt', 'openssl': 'BCrypt'}
 ]
 
 # Column headers.

@@ -32,16 +32,15 @@ constexpr size_t  INNER_LOOP_COUNT = 100000;
 int64_t cpu_time()
 {
 #if defined(WINDOWS)
-    ::FILETIME creation_time, exit_time, kernel_time, user_time;
-    if (::GetProcessTimes(::GetCurrentProcess(), &creation_time, &exit_time, &kernel_time, &user_time) == 0) {
-        std::cerr << "GetProcessTimes error 0x" << std::hex << ::GetLastError() << std::endl;
+    FILETIME creation_time, exit_time, kernel_time, user_time;
+    if (GetProcessTimes(GetCurrentProcess(), &creation_time, &exit_time, &kernel_time, &user_time) == 0) {
+        std::cerr << "GetProcessTimes error 0x" << std::hex << GetLastError() << std::endl;
         std::exit(EXIT_FAILURE);
     }
     // A FILETIME is a 64-bit value in 100-nanosecond units (10 microsecond).
     const int64_t ktime = (int64_t(kernel_time.dwHighDateTime) << 32) | kernel_time.dwLowDateTime;
     const int64_t utime = (int64_t(user_time.dwHighDateTime) << 32) | user_time.dwLowDateTime;
     return (ktime + utime) / 10;
-
 #else
     rusage ru;
     if (getrusage(RUSAGE_SELF, &ru) < 0) {
