@@ -1,4 +1,4 @@
-# AES Benckmarks
+# AES Benchmarks
 
 This project runs AES encryption and decryption tests on various CPU's using the
 OpenSSL cryptographic library. [Previous tests](https://github.com/lelegard/cryptobench)
