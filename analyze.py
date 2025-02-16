@@ -28,7 +28,8 @@ def load_results(results, input_dir='.'):
     # Load all files.
     for res in results:
         res['freq'] = '%.2f GHz' % (res['frequency'])
-        res['openssl'] = ''
+        if not 'openssl' in res:
+            res['openssl'] = ''
         res['data'] = {}
         res['index'] = count
         count += 1

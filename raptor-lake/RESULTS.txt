@@ -1,0 +1,45 @@
+MULTIPLE TESTS ON INTEL RAPTOR LAKE CPU (i7-13700H)
+
+ENCRYPTION / DECRYPTION BITRATE (Gb/s)
+
+System                    Windows       Windows
+OpenSSL                     3.3.2        BCrypt
+-------------------   -----------   -----------
+AES-128-ECB encrypt   125.069 (1)   124.121 (2)
+AES-128-ECB decrypt   124.121 (1)    86.232 (2)
+AES-256-ECB encrypt    88.905 (1)    88.222 (2)
+AES-256-ECB decrypt    88.905 (1)    66.259 (2)
+AES-128-CBC encrypt    19.275 (2)    21.005 (1)
+AES-128-CBC decrypt   125.069 (1)   118.815 (2)
+AES-256-CBC encrypt    14.124 (2)    15.077 (1)
+AES-256-CBC decrypt    89.600 (1)    87.548 (2)
+AES-128-XTS encrypt    93.802 (2)   149.094 (1)
+AES-128-XTS decrypt    92.391 (2)   147.939 (1)
+AES-256-XTS encrypt    75.041 (2)   127.795 (1)
+AES-256-XTS decrypt    74.473 (2)   131.072 (1)
+AES-128-GCM encrypt    65.299 (2)    97.815 (1)
+AES-128-GCM decrypt    67.248 (2)    93.091 (1)
+AES-256-GCM encrypt    55.855 (2)    86.885 (1)
+AES-256-GCM decrypt    55.855 (2)    80.679 (1)
+
+ENCRYPTED / DECRYPTED BITS PER PROCESSOR CYCLE
+
+System                    Windows       Windows
+OpenSSL                     3.3.2        BCrypt
+-------------------   -----------   -----------
+AES-128-ECB encrypt      25.0 (1)      24.8 (2)
+AES-128-ECB decrypt      24.8 (1)      17.2 (2)
+AES-256-ECB encrypt      17.8 (1)      17.6 (2)
+AES-256-ECB decrypt      17.8 (1)      13.3 (2)
+AES-128-CBC encrypt      3.86 (2)      4.20 (1)
+AES-128-CBC decrypt      25.0 (1)      23.8 (2)
+AES-256-CBC encrypt      2.82 (2)      3.02 (1)
+AES-256-CBC decrypt      17.9 (1)      17.5 (2)
+AES-128-XTS encrypt      18.8 (2)      29.8 (1)
+AES-128-XTS decrypt      18.5 (2)      29.6 (1)
+AES-256-XTS encrypt      15.0 (2)      25.6 (1)
+AES-256-XTS decrypt      14.9 (2)      26.2 (1)
+AES-128-GCM encrypt      13.1 (2)      19.6 (1)
+AES-128-GCM decrypt      13.4 (2)      18.6 (1)
+AES-256-GCM encrypt      11.2 (2)      17.4 (1)
+AES-256-GCM decrypt      11.2 (2)      16.1 (1)
