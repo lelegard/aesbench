@@ -9,6 +9,9 @@ The tested key sizes are 128 and 256 bits.
 
 The tested chaining modes are ECB, CBC, XTS, GCM.
 
+Note: an equivalent [shabench](https://github.com/lelegard/shabench) project exists
+for SHA algorithms.
+
 ## Performance results
 
 The performances are evaluated on pure data encryption or decryption, using the
