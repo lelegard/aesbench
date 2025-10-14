@@ -23,16 +23,22 @@ SEPARATOR = '   '
 #
 def load_results(results, input_dir='.'):
     algos = []
-    count = 0
+    index = 0
 
     # Load all files.
-    for res in results:
+    while index < len(results):
+        res = results[index]
+        if not os.path.isabs(res['file']):
+            res['file'] = os.path.abspath(input_dir + os.path.sep + res['file'])
+        if not os.path.exists(res['file']):
+            del results[index]
+            continue
         res['freq'] = '%.2f GHz' % (res['frequency'])
         if not 'openssl' in res:
             res['openssl'] = ''
         res['data'] = {}
-        res['index'] = count
-        count += 1
+        res['index'] = index
+        index += 1
         if not os.path.isabs(res['file']):
             res['file'] = os.path.abspath(input_dir + os.path.sep + res['file'])
         with open(res['file'], 'r') as input:
