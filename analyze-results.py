@@ -28,7 +28,9 @@ results = [
     {'cpu': 'Apple M1',     'core': 'M1',            'frequency': 3.20, 'file': 'arm-apple-m1-macos.txt'},
     {'cpu': 'Apple M2',     'core': 'M2',            'frequency': 3.49, 'file': 'arm-apple-m2-macos.txt'},
     {'cpu': 'Apple M3',     'core': 'M3',            'frequency': 4.05, 'file': 'arm-apple-m3-macos.txt'},
-    {'cpu': 'Apple M4',     'core': 'M4',            'frequency': 4.40, 'file': 'arm-apple-m4-macos.txt'}
+    {'cpu': 'Apple M4',     'core': 'M4',            'frequency': 4.40, 'file': 'arm-apple-m4-macos.txt'},
+    {'cpu': 'Cix P1',       'core': 'Cortex A520',   'frequency': 1.80, 'file': 'arm-cix-p1-cortex-a520-linux.txt'},
+    {'cpu': 'Cix P1',       'core': 'Cortex A720',   'frequency': 2.60, 'file': 'arm-cix-p1-cortex-a720-linux.txt'},
 ]
 
 # Column headers.
