@@ -21,6 +21,8 @@ results = [
     {'cpu': 'EPYC 9534',    'core': 'Genoa',         'frequency': 3.70, 'file': 'amd-epyc-9534-linux.txt'},
     {'cpu': 'Rasp. Pi 3',   'core': 'Cortex A53',    'frequency': 1.20, 'file': 'arm-rpi3-cortex-a53-linux.txt'},
     {'cpu': 'Rasp. Pi 4',   'core': 'Cortex A72',    'frequency': 1.80, 'file': 'arm-rpi4-cortex-a72-linux.txt'},
+    {'cpu': 'Cix P1',       'core': 'Cortex A520',   'frequency': 1.80, 'file': 'arm-cix-p1-cortex-a520-linux.txt'},
+    {'cpu': 'Cix P1',       'core': 'Cortex A720',   'frequency': 2.60, 'file': 'arm-cix-p1-cortex-a720-linux.txt'},
     {'cpu': 'Ampere Altra', 'core': 'Neoverse N1',   'frequency': 3.00, 'file': 'arm-ampere-neoverse-n1-linux.txt'},
     {'cpu': 'Cobalt 100',   'core': 'Neoverse N2',   'frequency': 3.40, 'file': 'arm-cobalt100-neoverse-n2-linux.txt'},
     {'cpu': 'Graviton 3',   'core': 'Neoverse V1',   'frequency': 2.60, 'file': 'arm-graviton3-neoverse-v1-linux-vm.txt'},
@@ -29,8 +31,6 @@ results = [
     {'cpu': 'Apple M2',     'core': 'M2',            'frequency': 3.49, 'file': 'arm-apple-m2-macos.txt'},
     {'cpu': 'Apple M3',     'core': 'M3',            'frequency': 4.05, 'file': 'arm-apple-m3-macos.txt'},
     {'cpu': 'Apple M4',     'core': 'M4',            'frequency': 4.40, 'file': 'arm-apple-m4-macos.txt'},
-    {'cpu': 'Cix P1',       'core': 'Cortex A520',   'frequency': 1.80, 'file': 'arm-cix-p1-cortex-a520-linux.txt'},
-    {'cpu': 'Cix P1',       'core': 'Cortex A720',   'frequency': 2.60, 'file': 'arm-cix-p1-cortex-a720-linux.txt'},
 ]
 
 # Column headers.
